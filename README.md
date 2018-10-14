@@ -9,7 +9,7 @@ deliver a great outcome.
 However when you are in larger projects some documentation is needed
 in order to improve communication between people.
 
-You can use available standards like *UML* or *Database Diagrams* to represent
+You can use available standards like *UML* or *Entity Relationship Diagrams* to represent
 relationships. But they quickly become outdated specially in the first iterations
 and drafts. Creating them usually needs some graphic design tool and collaboration
 between people become slower.
@@ -137,12 +137,12 @@ comment
 ### Cardinality
 
 The cardinality could be defined as `initial..final`. The `*` (asterik) means
-"or more". The macro `@any` could be used to write `0..*`.
+"or more". The macro `@many` could be used to write `0..*`.
 
 Examples:
 
 - `0..*`: Zero or more items allowed.
-- `@any`: Same as `0..*`.
+- `@many`: Same as `0..*`.
 - `1`: One item minimum and maximum.
 - `3`: Three items minimum and maximum.
 - `1..2`: One item minimum, two items maximum.
@@ -321,5 +321,47 @@ Like this:
 The structure of a document is similar to a *ProcessWire*'s page tree. With each node representing a `template` with fields.
 
 #### Node
-!! TODO: Add nodes docs
+A node is the base structure for a relationship three. A node can have children or just be a single node. The base structure is the following:
 
+`<root|public|private> "<label>" (<args>) <cardianlity> -> ...`
+
+Example: 
+
+```
+/ ++ "Home" ([home, {@only, @strong}]) @many -> 
+
+    # All children of the home node
+    
+    ++ "Contact" (contact) @many ->
+        -- "Contact Message" (contact-message, {message:text})
+    ... #/contact
+    
+    ++ "About Us" (about, {content: text})
+    
+... #/home
+```
+
+#### Root Node
+For stablishing a `root` node the first char of a node should be `/`. Only one root node must be present in a document.
+
+#### Private/Public
+- `++` should be used if the pages that would be using this node will have `public` access. (In ProcessWire this means it will have a file named the same as the template).
+
+- `--` should be used if the pages using this node will have `private` access. This is the `default` value if ommited.
+
+#### Label
+The label is a string that would serve as an aid for navigating the node three. 
+
+#### Args
+The arguments is similar to a function that could contain different structures depending on the args given.
+
+- `(<node name>)`: Just the node name. Assumes default properties for a node.
+- `(<node name>, {node properties})`: A node name with custom properties.
+- `([<node name>, <node configuration>])` : A node name with custom configuration and default properties.
+- `([<node name>, {node configuration}], {node properties})` : A node name with custom configuration and custom properties.
+
+#### Cardinality
+Cardinality can be any cardinality operator. Default value is `0..*` (`@many`). Only required if the node have children.
+
+#### Children
+The node would detemine to have children if the operator `->` is present and ends with the `...` operator.
