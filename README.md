@@ -263,7 +263,7 @@ Example for the `array()` and `reference()` component:
 @end
 ```
 
-Usage:
+*Example*:
 
 ```
 users: array(0..1, &user)
@@ -276,19 +276,25 @@ This means: this field will store an array of `0 to 1` user page reference.
 Page reference could be called as a component `reference()` or as a
 shorthand syntax using `&` symbol.
 
-Note:
+**Note**:
 
 When using the `&` shorthand symbol it does not support parameters.
 
 
-Usage:
+*Example*:
 
 ```
-admins: array(0..*, reference(&user, selector("admin=1"))
+admins: array(0..*, reference(user, selector("admin=1"))
 ```
 
 This means: this field will store an array of `zero or more` pages
 with the template `user` where it's `admin` field value is `1` (*true*).
+
+*Example with shorthand syntax*:
+
+```
+puppies: array(0..*, &dogs)
+```
 
 **Note**
 
@@ -403,11 +409,11 @@ When the node has an `id` associated with it the template name could be called l
 
 *Example*
 
-`product: reference(&products-item)`
+`product: reference(products-item)`
 
 *Example With id*
 
-`tags:reference(&fashion-tags$products-tags-item)`
+`tags:reference(fashion-tags$products-tags-item)`
 
 #### Cardinality
 Cardinality can be any cardinality operator. Default value is `0..*` (`@many`). Only required if the node have children.
