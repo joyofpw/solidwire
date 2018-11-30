@@ -103,8 +103,8 @@
         def lowercase(value:str) -> str
         def titlecase(value:str) -> str
         def trim(input:str, chars:list=WHITESPACE) -> str
-        def ltrim(input:str, chars=WHITESPACE) -> str
-        def rtrim(input:str, chars=WHITESPACE) -> str
+        def ltrim(input:str, chars:list=WHITESPACE) -> str
+        def rtrim(input:str, chars:list=WHITESPACE) -> str
 
         # Defines rules that the field must pass to be valid
         def rules(values:dict) -> Any
