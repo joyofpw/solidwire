@@ -290,6 +290,12 @@ admins: array(0..*, reference(&user, selector("admin=1"))
 This means: this field will store an array of `zero or more` pages
 with the template `user` where it's `admin` field value is `1` (*true*).
 
+**Note**
+
+Selectors are a components that accepts a string that follows the
+[ProcessWire selector rules](https://processwire.com/api/ref/selectors/).
+
+
 ### Macros
 
 Macros are a set of instructions condensed in a just one. They are helpful
@@ -373,9 +379,11 @@ The label is a string that would serve as an aid for navigating the node three. 
 - `<id>$"<label>"` : The `id` enables to identify the node specifically. It uses the symbol `$` to separate `id` from `label`. Using the `id` is optional. The `id` must follow the conventions of the *ProcessWire page names*.
 
 *Example*
+
 `++ "Posts" ([posts, {@strong}]) @many ->`
 
 *Example With id*
+
 `++ blog1$"Posts" ([posts, {@strong}]) @many ->`
 
 #### Args
@@ -394,9 +402,11 @@ nodes. Just like [*ProcessWire Pages*](https://processwire.com/api/ref/page/).
 When the node has an `id` associated with it the template name could be called like `id$name`. In order to specify exactly which node you would accept as a parameter.
 
 *Example*
+
 `product: reference(&products-item)`
 
 *Example With id*
+
 `tags:reference(&fashion-tags$products-tags-item)`
 
 #### Cardinality
