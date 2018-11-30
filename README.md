@@ -23,8 +23,6 @@ alike. Inspiration was taken from different tools and languages like *C*, *UML*,
 
 ***Solid Wire* means to be like cascading style language. *CSS* for data relationships.**
 
-## Example
-
 ## Specification (Version 1.0)
 
 The following content represent the specification for a *Solid Wire* document.
