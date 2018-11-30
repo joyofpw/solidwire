@@ -132,9 +132,10 @@ comment
 ### Cardinality
 
 The cardinality could be defined as `initial..final`. The `*` (asterik) means
-"or more". The macro `@many` could be used to write `0..*`.
+"or more". The macro `@many` could be used to write `0..*`. 
+You can use any (and only) integer for the initial and final parts.
 
-Examples:
+*Examples*:
 
 - `0..*`: Zero or more items allowed.
 - `@many`: Same as `0..*`.
@@ -256,8 +257,8 @@ Example for the `array()` and `reference()` component:
 ```
 @header
     @components 
-        def array(cardinality, component)
-        def reference(pointer, selector=None)
+        def array(size:cardinality, component:object)
+        def reference(template:pointer, sel:selector=None)
     @end
 @end
 ```
@@ -312,8 +313,9 @@ Like this:
 
 ```
 @header
-    @macro my_macro(var)
-        title: str.label(values:dict)
+    # This macro set the title for `default` and `english` languages.
+    @macro english_title(input)
+        title: str.label({'default': input, 'en': input})
     @end
 @end
 ```
@@ -359,20 +361,43 @@ Child nodes can use the special `!!` for args to indicate they will reutilize th
 For stablishing a `root` node the first char of a node should be `/`. Only one root node must be present in a document.
 
 #### Private/Public
+
 - `++` should be used if the pages that would be using this node will have `public` access. (In ProcessWire this means it will have a file named the same as the template).
 
 - `--` should be used if the pages using this node will have `private` access. This is the `default` value if ommited.
 
 #### Label
-The label is a string that would serve as an aid for navigating the node three. 
+The label is a string that would serve as an aid for navigating the node three. Could be in two formats.
+
+- `"<label>"` : Simple `label` in a string.
+- `<id>$"<label>"` : The `id` enables to identify the node specifically. It uses the symbol `$` to separate `id` from `label`. Using the `id` is optional. The `id` must follow the conventions of the *ProcessWire page names*.
+
+*Example*
+`++ "Posts" ([posts, {@strong}]) @many ->`
+
+*Example With id*
+`++ blog1$"Posts" ([posts, {@strong}]) @many ->`
 
 #### Args
 The arguments is similar to a function that could contain different structures depending on the args given.
 
-- `(<node name>)`: Just the node name. Assumes default properties for a node.
-- `(<node name>, {node properties})`: A node name with custom properties.
-- `([<node name>, <node configuration>])` : A node name with custom configuration and default properties.
-- `([<node name>, {node configuration}], {node properties})` : A node name with custom configuration and custom properties.
+- `(<template name>)`: Just the template name. Assumes default properties for a node.
+- `(<template name>, {node properties})`: A template name with custom properties.
+- `([<template name>, <node configuration>])` : A template name with custom configuration and default properties.
+- `([<template name>, {node configuration}], {node properties})` : A template name with custom configuration and custom properties.
+
+##### Template name 
+The template name follows the same rules as [*ProcessWire* templates](https://processwire.com/api/ref/sanitizer/page-name/).
+And is used for identification across the document. The template name could be repeated across the document by different
+nodes. Just like [*ProcessWire Pages*](https://processwire.com/api/ref/page/).
+
+When the node has an `id` associated with it the template name could be called like `id$name`. In order to specify exactly which node you would accept as a parameter.
+
+*Example*
+`product: reference(&products-item)`
+
+*Example With id*
+`tags:reference(&fashion-tags$products-tags-item)`
 
 #### Cardinality
 Cardinality can be any cardinality operator. Default value is `0..*` (`@many`). Only required if the node have children.
