@@ -18,14 +18,13 @@ Other option is to rely on [migrations](https://modules.processwire.com/modules/
 
 *SolidWire* was created as a language that bridges between code and diagrams.
 A tool that is meant to be used as a documentation aid providing an eagle view of *Processwire's
-hierarchies and relationships*, that could be easily read by technical and non technical people
-alike. Inspiration was taken from different tools and languages like *C*, *UML*, *Markdown*, *Javascript*, *Python* and *PHP*. 
+hierarchies and relationships*. Inspiration was taken from different tools and languages like *C*, *UML*, *Markdown*, *Javascript*, *Python* and *PHP*. 
 
 ***Solid Wire* means to be like cascading style language. *CSS* for data relationships.**
 
 ## Specification (Version 1.0)
 
-The following content represent the specification for a *Solid Wire* document.
+The specs provide an standarized way of the language in order to create tools like syntax highlighters, linters or document compilers in the future.
 
 ### Document
 
@@ -344,7 +343,7 @@ A node is the base structure for a relationship three. A node can have children 
 Example: 
 
 ```
-/ ++ "Home" ([home, {@only, @strong}]) @many -> 
+/++ "Home" ([home, {@once, @strong}]) @many -> 
 
     # All children of the home node
     
