@@ -111,7 +111,7 @@
         
         # Array
         def array(size:cardinality, component:object) -> list
-        def reference(obj:pointer, sel:selector=None) -> ptr
+        def reference(template:pointer, sel:selector=None) -> ptr
         
         
     @end
@@ -136,12 +136,18 @@
         strong = False
     @end
 
-    @macro only
+    # Instance quantity. How many copies can a page with the same template exists?.
+    @macro once
         # How many instances of this template are allowed
         max_instances = 1
     @end
+    
+    @macro only(quantiy:int = 1)
+        max_instances = quantity
+    @end
 
-    @macro many
+    # The default instance quantity has no limits.
+    @macro unlimited
         # Zero means without limits
         max_instances = 0
     @end
