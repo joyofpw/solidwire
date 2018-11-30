@@ -98,7 +98,7 @@ string
 
 Code strings could used to represent some code. 
 Begins and ends with triple *`* (backtick) char. They act similar to multiline strings
-but indicate this is some code. Similar to [Markdown sintax](https://help.github.com/articles/creating-and-highlighting-code-blocks/).
+but indicate this is some code. Similar to [Markdown syntax](https://help.github.com/articles/creating-and-highlighting-code-blocks/).
 
 Example:
 
@@ -381,7 +381,7 @@ Cardinality can be any cardinality operator. Default value is `0..*` (`@many`). 
 The node would detemine to have children if the operator `->` is present and ends with the `...` operator.
 
 ## Example
-The following document can express how a simple blog could be expressed using *Solid Wire* syntax.
+The following document shows how a simple blog could be expressed using *Solid Wire* syntax.
 
 ```
 #! solidwire.version 1
@@ -395,6 +395,7 @@ The following document can express how a simple blog could be expressed using *S
         ++ "My Post 2" (!!)
         ++ "My Post 3" (!!)
     ... #/posts
+... #/home
 @end
 ```
 
@@ -422,5 +423,8 @@ Import the common *Processwire* fields and macros,
 - The template is named `posts-item`.
 - Have a field named `body` of type `textarea`.
 - Have no children.
+
+`    ... #/posts`
+`...` Indicates the end of the `Posts` child context. `#/posts` is just a comment to represent that childs of this page ends here.
 
 
