@@ -9,18 +9,36 @@
     
         # Core types
         Any: "Any kind of object or value",
+        object: "Same as any",
+        cardinality: "Cardinality object",
+        selector: "A selector string",
         None: "The value is null",
+        nil: "The same as `None`",
+        null: "The same as `None`",
         int: "Integer value", 
+        integer: "Same as `int`",
         double: "Double precision number",
+        float: "Float precision number",
         number: "Any kind of number",
         str: "Single line string value. Similar to `<input type="text">`.",
+        string: "The same as `str`".
+        textfield: "The same as `str`",
         text: "Multi line string value. Similar to `<textarea></textarea>`.",
+        textarea: "The same as `text`",
         dict: "A dictionary object. Similar to JSON",
         list: "A list of values separated by comma inside `[]` brackets",
         bool: "One of values in [true, false, yes, no] (ignoring case) Similar to a checkbox.",
+        boolean: "The same as `bool`",
+        checkbox: "The same as `bool`",
+        Yes: "The same as `true`",
+        true: "A boolean with value 1",
+        false: "A boolean with value 0",
+        No: "The same as `false`",
         pointer: "A reference to a template. Alternative syntax `ptr`.",
         ptr: "A reference to a template. Alternative syntax of `pointer`", 
+        pagereference: "The same as `pointer`",
         img: "Image value. Similar to `<img src="">`.",
+        image: "Same as `img`"
         
 
         # Custom types
@@ -59,26 +77,43 @@
         # Tells if the field should close
         def close() -> Any
 
+        # Defines a label for the field
+        def label(values:dict) -> Any
+        
         # Fieldset is used to group different
         # fields related to a context.
         # Usage: 
         #
-        # fielset('seo', label={'default':'SEO'}).open()
+        # fielset('seo').label({'default':'SEO'}).open()
         #
         # # Example field inside fieldset 'seo'
         # meta_description:str
         #
         # fieldset('seo').close()
 
-        def fieldset(name:str, label:dict=None):Any
+        def fieldset(name:str) -> Any
 
         # Hash the string with a defined algorithm
         # Possible values:
         # md5, bcrypt, sha256
         def hash(value:str) -> str
+        
+        # String modifiers
+        def uppercase(value:str) -> str
+        def lowercase(value:str) -> str
+        def titlecase(value:str) -> str
+        def trim(input:str, chars:list=WHITESPACE) -> str
+        def ltrim(input:str, chars=WHITESPACE) -> str
+        def rtrim(input:str, chars=WHITESPACE) -> str
 
         # Defines rules that the field must pass to be valid
-        def rules(values:dict):bool
+        def rules(values:dict) -> Any
+        
+        # Array
+        def array(size:cardinality, component:object) -> list
+        def reference(obj:pointer, sel:selector=None) -> ptr
+        
+        
     @end
 
 
