@@ -283,11 +283,11 @@ When using the `&` shorthand symbol it does not support parameters.
 Usage:
 
 ```
-admins: array(0..*, reference(&user, selector("admin=True"))
+admins: array(0..*, reference(&user, selector("admin=1"))
 ```
 
 This means: this field will store an array of `zero or more` pages
-with the template `user` where it's `admin` field value is `True`.
+with the template `user` where it's `admin` field value is `1` (*true*).
 
 ### Macros
 
@@ -388,7 +388,7 @@ The following document can express how a simple blog could be expressed using *S
 #! import "foundation.wh"
 
 @document
-/++ "Home" ([home, {@only, @strong}]) @many -> 
+/++ "Home" ([home, {@once, @strong}]) @many -> 
 
     ++ "Posts" ([posts, {@strong}]) @many ->
         ++ "My Post 1" (posts-item, {body:textarea}) 
@@ -397,3 +397,30 @@ The following document can express how a simple blog could be expressed using *S
     ... #/posts
 @end
 ```
+
+`#! import "foundation.wh"`
+
+Import the common *Processwire* fields and macros,
+
+`/++ "Home" ([home, {@once, @strong}]) @many -> `
+
+- This is the root node. As noted by the initial `/++`. 
+- It's template is named `home`.
+- It will only allow one copy (one page with the template home).
+- It will have a `strong` relationship with it's parent (could not be deleted unless it's parent is deleted). Because this is a root node. This page is permanent.
+- `@many` indicates it could have 0 or more children (`0..*`).
+
+`++ "Posts" ([posts, {@strong}]) @many ->`
+
+- The template is named `posts`.
+- Will have a `strong` relationship with it's parent.
+- Can have zero or more children.
+- It's parent is the `root` node.
+
+`++ "My Post 1" (posts-item, {body:textarea}) `
+
+- The template is named `posts-item`.
+- Have a field named `body` of type `textarea`.
+- Have no children.
+
+
