@@ -17,13 +17,13 @@ between people become slower.
 Other option is to rely on [migrations](https://modules.processwire.com/modules/migrations/). This option has the issue that in most cases, only programmers could understand them.
 
 *SolidWire* was created as a language that bridges between code and diagrams.
-A tool that is meant to be used as a documentation aid providing an eagle view of Processwire's
-hierarchies and relationships, that could be easily read by technical and non technical people
-alike. Inspiration was taken from different tools and languages like *C*, *UML*, *Markdown*, *Javascript*, *Python* and *PHP*. *Solid Wire* means to be a cascading style language.
+A tool that is meant to be used as a documentation aid providing an eagle view of *Processwire's
+hierarchies and relationships*, that could be easily read by technical and non technical people
+alike. Inspiration was taken from different tools and languages like *C*, *UML*, *Markdown*, *Javascript*, *Python* and *PHP*. 
+
+***Solid Wire* means to be like cascading style language. *CSS* for data relationships.**
 
 ## Example
-
-<!-- TODO: Include an example document -->
 
 ## Specification (Version 1.0)
 
@@ -34,7 +34,7 @@ The following content represent the specification for a *Solid Wire* document.
 A *Solid Wire* document could have the following extensions:
 
 - *.wire
-- *.wd (Short for wire document)
+- *.wd *(Short for wire document)*
 
 Example:
 
@@ -57,10 +57,10 @@ Example:
 website.wh
 ```
 
-The header should begin with the keyword `@header` and end with the keyword `@end`.
-
-Header keywords must not be inside `@document` context.
-Header keywords must be before `@document`.
+- The header should begin with the keyword `@header` and end with the keyword `@end`.
+- Header keywords must not be inside `@document` context.
+- Header keywords must be before `@document`.
+- A document can have many headers.
 
 ### Strings
 
@@ -96,20 +96,17 @@ string
 '''
 ```
 
-### Placeholder Strings
+### Code Strings
 
-Placeholder strings could used to replace simple variables on build time. 
-Begins and ends with the `\`` char. They act similar to multiline strings
-but can have dynamic data.
+Code strings could used to represent some code. 
+Begins and ends with triple *`* (backtick) char. They act similar to multiline strings
+but indicate this is some code. Similar to [Markdown sintax](https://help.github.com/articles/creating-and-highlighting-code-blocks/).
 
 Example:
 
-```
-`This is a code string ${data}` 
-
-`This is a code
-string with ${data} too`
-```
+    ```php
+        <?php echo "This is a code string" ?>
+    ``` 
 
 ### Comments
 
@@ -216,6 +213,13 @@ Some message that requires attention.
 #! message.important "WARNING: This could cause conflicts later"
 ```
 
+#### Constants
+
+Constants are useful for storing recurring values. Use all Uppercase.
+The contents could be a number or string.
+
+`#! const CONSTANT 80`
+
 ### Types
 Type are a set of keywords that would be considered as a 
 "base" type for a field.
@@ -263,7 +267,7 @@ Example for the `array()` and `reference()` component:
 Usage:
 
 ```
-users: pointer.array(0..1, &user)
+users: array(0..1, &user)
 ```
 
 This means: this field will store an array of `0 to 1` user page reference.
@@ -281,7 +285,7 @@ When using the `&` shorthand symbol it does not support parameters.
 Usage:
 
 ```
-admins: pointer.array(0..*, reference(&user, selector("admin=True"))
+admins: array(0..*, reference(&user, selector("admin=True"))
 ```
 
 This means: this field will store an array of `zero or more` pages
@@ -311,7 +315,7 @@ Like this:
 ```
 @header
     @macro my_macro(var)
-        title: str.label(var)
+        title: str.label(values:dict)
     @end
 @end
 ```
@@ -341,6 +345,18 @@ Example:
 ... #/home
 ```
 
+#### Child Node
+Child nodes can use the special `!!` for args to indicate they will reutilize the same args as the previous child sibling.
+
+```
+ ++ "Posts" ([posts, {@strong}]) @many ->
+        ++ "My Post 1" (posts-item, {body:textarea}) 
+        ++ "My Post 2" (!!)
+        ++ "My Post 3" (!!)
+    ... #/posts
+```
+
+
 #### Root Node
 For stablishing a `root` node the first char of a node should be `/`. Only one root node must be present in a document.
 
@@ -365,3 +381,21 @@ Cardinality can be any cardinality operator. Default value is `0..*` (`@many`). 
 
 #### Children
 The node would detemine to have children if the operator `->` is present and ends with the `...` operator.
+
+## Example
+The following document can express how a simple blog could be expressed using *Solid Wire* syntax.
+
+```
+#! solidwire.version 1
+#! import "foundation.wh"
+
+@document
+/++ "Home" ([home, {@only, @strong}]) @many -> 
+
+    ++ "Posts" ([posts, {@strong}]) @many ->
+        ++ "My Post 1" (posts-item, {body:textarea}) 
+        ++ "My Post 2" (!!)
+        ++ "My Post 3" (!!)
+    ... #/posts
+@end
+```
