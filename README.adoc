@@ -141,13 +141,13 @@ You can use `swift` code tag to highlight the language.
 
 ## Conventions
 
-- `@once`: Only one copy of this page can be created. Alias oof{once:true}.
-- `@strong`: Can be deleted only when all the children are deleted. Alias of {strong:true}.
-- `@root`: Is the root of the page tree. Alias of {root:true}.
-- `@childless`: Can not have children. Alias of {children:false}.
-- `@i18n`: Can be multi lang enabled. Alias of {i18n:true}.
-- `@global`: This input will be present in every page instance. Alias of {global:true}.
-- `@many`: Can have any number of children. Alias of {many:true}.
+- `@once`: Only one copy of this page can be created. Alias of `{once:true}`.
+- `@strong`: Can be deleted only when all the children are deleted. Alias of `{strong:true}`.
+- `@root`: Is the root of the page tree. Alias of `{root:true}`.
+- `@childless`: Can not have children. Alias of `{children:false}`.
+- `@i18n`: Can be multi lang enabled. Alias of `{i18n:true}`.
+- `@global`: This input will be present in every page instance. Alias of `{global:true}`.
+- `@many`: Can have any number of children. Alias of `{many:true}`.
 - `(!!)``: Repeats the last signature used.
 - `//`, `/* */` : Comments.
 - `""`, `"""` : Strings.
