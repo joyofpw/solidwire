@@ -1,0 +1,198 @@
+# SolidWire
+
+A solid way to represent https://processwire.com/[ProcessWire] template, fields and relationships.
+
+ProcessWire is a wonderful system with lots of flexibility. In most
+cases you don´t need complex hierarchies and relationships to
+deliver a great outcome.
+
+However when you are in larger projects some documentation is needed
+in order to improve communication between people.
+
+You can use available standards like *UML* or *Entity Relationship Diagrams* to represent
+relationships. But they quickly become outdated specially in the first iterations
+and drafts. Creating them usually needs some graphic design tool and collaboration
+between people become slower.
+
+Other option is to rely on https://modules.processwire.com/modules/migrations/[migrations]. This option has the issue that in most cases, only programmers could understand them.
+
+*SolidWire* was created as a _pseudo code language_ that bridges between code and diagrams.
+
+A tool that is meant to be used as a documentation aid providing an eagle view of _Processwire's hierarchies and relationships_.
+
+Inspiration was taken from different tools and languages like *C*, *UML*, *Markdown*, *Javascript*, *Python*, *PHP*, *Swift*.
+
+## Specification (Version 2.0)
+
+The specs were simplified and are now more _Pseudo code_ like. 
+Take this as a framework to build your own conventions.
+The idea is to communicate better and provide an eagle view of the _ProcessWire_ project.
+
+## Document
+
+A *Solid Wire* document could have the following extensions:
+
+- *.wire
+- *.wd *(Short for wire document)*
+
+## Example
+
+You can use `swift` code tag to highlight the language.
+
+```swift
+
+@document {
+
+    @wire {
+        @templates {
+            home: template().options({@once, @strong, @root}),
+            notfound: template().options({@once, @childless}).description("Used in 404 errors"),
+            birds: template().options({@strong}).family({
+                    parents: ["home"],
+                    children: ["birds-item"]
+            }),
+            birds-item: template().options({@childless}).family({
+                parents: ["birds"]
+            })
+        },
+        
+        @fields {
+            
+            title: text().options({@i18n, @global}),
+
+            body: textarea().options({@i18n}),
+
+            uid: text(),
+
+            href: url(),
+
+            file: files().max(1),
+
+            migration: checkbox(),
+
+            dimorfism: checkbox(),
+
+            size: text(),
+
+            order: text(),
+
+            species: text(),
+
+            image: images().max(1).mediatypes([@jpg, @png, @svg]),
+
+            images: images().mediatypes([@jpg, @png, @svg]),
+            
+            value: text().options({@i18n}),
+            
+            habitat: textarea()
+                    .description("Stores the habitat property")
+                    .options({@i18n}),
+
+            didyouknow: textarea()
+                    .description("Stores the did you know property")
+                    .options({@i18n}),
+
+            iucn: pagetable()
+                    .max(1)
+                    .fields({
+                        body: body().description("Stores the iucn description"),
+                        value: value().description("Stores the iucn value")
+                    }),
+
+            audio: pagetable()
+                    .max(1)
+                    .fields({
+                        file,
+                        title.label("Author")
+                    }),
+
+            map: pagetable()
+                .max(1)
+                .fields({
+                    image,
+                    value
+                }),
+            
+
+        },
+
+        @pages {
+            + "Home" (template:home) @many -> {
+                + "Birds" (template:birds) @many -> {
+                    + "Bird 1" (template:birds-item, fields: {
+                        title: title().label("Names"),
+                        body: body().label("Description").description("Stores the bird description"),
+                        images,
+                        habitat,
+                        didyouknow,
+                        iucn,
+                        audio,
+                        map,
+                        species,
+                        migration,
+                        dimorfism
+                    })
+                } // /birds
+            } // /home
+        } // /pages
+    } // /wire
+} // /document
+```
+
+## Conventions
+
+- `@once`: Only one copy of this page can be created. Alias oof{once:true}.
+- `@strong`: Can be deleted only when all the children are deleted. Alias of {strong:true}.
+- `@root`: Is the root of the page tree. Alias of {root:true}.
+- `@childless`: Can not have children. Alias of {children:false}.
+- `@i18n`: Can be multi lang enabled. Alias of {i18n:true}.
+- `@global`: This input will be present in every page instance. Alias of {global:true}.
+- `@many`: Can have any number of children. Alias of {many:true}.
+- `(!!)``: Repeats the last signature used.
+- `//`, `/* */` : Comments.
+- `""`, `"""` : Strings.
+
+## Cardinality
+
+The cardinality could be defined as `initial..final`. The `*` (asterik) means
+"or more". The macro `@many` could be used to write `0..*`. 
+You can use any (and only) integer for the initial and final parts.
+
+### Nomenclature
+
+- `0..*`: Zero or more items allowed.
+- `@many`: Same as `0..*`.
+- `1..!`: One item minimum and maximum.
+- `3..!`: Three items minimum and maximum.
+- `1..2`: One item minimum, two items maximum.
+
+### Example
+
+- `+ "Birds" (template:birds) @many -> {}`
+- `- "Birds" (template:birds) 0..* -> {}`
+
+### Region
+
+Regions are used to specify some area inside the document. Mainly used for
+better organization and help tool building.
+
+Is composed by using a comment with the name `Mark:` after it.
+
+- `// Mark: Something`
+
+### Page Reference
+
+Page reference could be called as a component `reference()` or as a
+shorthand syntax using `&` symbol.
+
+### Private/Public
+
+- `+` should be used if the pages that would be using this node will have `public` access. (In ProcessWire this means it will have a file named the same as the template).
+
+- `-` should be used if the pages using this node will have `private` access. This is the `default` value if ommited.
+
+
+
+++++
+Made with <i class="fa fa-heart">&#9829;</i> by <a href="https://ninjas.cl" target="_blank">Ninjas.cl</a>.
+++++
