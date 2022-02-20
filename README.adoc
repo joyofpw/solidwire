@@ -191,6 +191,24 @@ shorthand syntax using `&` symbol.
 
 - `-` should be used if the pages using this node will have `private` access. This is the `default` value if ommited.
 
+## Other Ideas
+
+If you prefer you can also check https://github.com/holistics/dbml/
+
+```elixir
+Table makers {
+  id int [pk, increment]
+  name varchar(100)
+}
+
+Table cars {
+  id int [pk, increment]
+  maker int [ref: > makers.id] // # one maker -> * cars
+  model varchar(100)
+  about varchar(100)
+  image_url varchar
+}
+```
 
 
 ++++
